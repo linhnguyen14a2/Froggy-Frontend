@@ -1,0 +1,51 @@
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
+import InfiniteScroll from "react-infinite-scroll-component";
+
+import Header from "../../components/Header/Header";
+import PokeCard from "../../components/Pokemon/PokeCard";
+import LoadingCard from "../../components/Loading/LoadingCard";
+import Colors from "../../styles/Colors";
+import { VerifyPokemons } from "../../functions/storage";
+
+const Favorites = ({ history, ...props }) => {
+    const [loading, setLoading] = useState(true);
+    const [favoriteCards, setFavoriteCards] = useState([]);
+
+    useEffect(() => {
+        setLoading(true);
+
+        // Retrieve favorite cards from localStorage
+        const favorites = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key !== "user" && !key.startsWith("google_oauth_")) {
+                const cardData = JSON.parse(localStorage.getItem(key));
+                favorites.push({ name: key, ...cardData });
+            }
+        }
+
+        setFavoriteCards(favorites);
+        setLoading(false);
+    }, []);
+
+    return (
+        <div>
+            <h1>Favorite Pokémon</h1>
+            {favoriteCards.length > 0 ? (
+                <div className="favorite-container">
+                    {favoriteCards.map((card, index) => (
+                        <div key={index}>
+                            <p>Name: {card.name}</p>
+                            <p>ID: {card.id}</p>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <p>No favorite Pokémon yet.</p>
+            )}
+        </div>
+    );
+};
+
+export default Favorites;

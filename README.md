@@ -1,1 +1,2 @@
-# Froggy-Frontend
+# froggy-frontend
+Pokedex frontend

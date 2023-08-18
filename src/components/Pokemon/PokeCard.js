@@ -30,6 +30,7 @@ const PokeCard = ({ name, id, types, click }) => {
                 name,
                 id,
                 types,
+                
             };
             localStorage.setItem(name, JSON.stringify(favoriteData));
         }
